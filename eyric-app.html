@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f0f0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Eyric Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #b8924a;
+    --gold-light: #d4aa6a;
+    --gold-dark: #8a6a30;
+    --black: #0f0f0f;
+    --dark: #1a1a1a;
+    --dark2: #222222;
+    --cream: #faf7f2;
+    --cream2: #f0ece4;
+    --gray: #888;
+    --text: #e8e0d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SPLASH ── */
+  #splash {
+    position: fixed; inset: 0;
+    background: var(--black);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.6s ease;
+  }
+  #splash .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 4px;
+    animation: fadeUp 1s ease forwards;
+  }
+  #splash .logo span { color: var(--cream); }
+  #splash p {
+    font-size: 0.75rem; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gray);
+    margin-top: 8px;
+    animation: fadeUp 1s ease 0.3s forwards;
+    opacity: 0;
+  }
+  #splash .bar {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin-top: 24px;
+    animation: expand 1.2s ease 0.5s forwards;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(15,15,15,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(184,146,74,0.2);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 400;
+    color: var(--gold); letter-spacing: 2px;
+  }
+  .nav-logo span { color: var(--cream); }
+  .nav-actions { display: flex; gap: 8px; }
+  .nav-btn {
+    background: none; border: none;
+    color: var(--gray); font-size: 1.2rem;
+    cursor: pointer; padding: 6px;
+    transition: color 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active { color: var(--gold); }
+
+  /* ── MAIN ── */
+  main { padding-top: 60px; min-height: 100vh; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 24px 20px; }
+  .screen.active { display: block; }
+
+  /* ── HOME ── */
+  .hero-section {
+    text-align: center; padding: 32px 0 24px;
+  }
+  .hero-section h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300;
+    color: var(--cream); line-height: 1.2;
+  }
+  .hero-section h1 em {
+    color: var(--gold); font-style: normal;
+  }
+  .hero-section p {
+    font-size: 0.85rem; color: var(--gray);
+    margin-top: 10px; line-height: 1.6;
+  }
+  .gold-line {
+    width: 40px; height: 1px;
+    background: var(--gold);
+    margin: 16px auto;
+  }
+
+  .cards-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 24px;
+  }
+  .card {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.15);
+    border-radius: 4px; padding: 20px 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+    text-align: center;
+  }
+  .card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 500;
+    color: var(--cream); margin-bottom: 6px;
+  }
+  .card p { font-size: 0.72rem; color: var(--gray); line-height: 1.4; }
+
+  /* ── DIAGNÓSTICO ── */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400;
+    color: var(--cream); margin-bottom: 6px;
+  }
+  .section-subtitle {
+    font-size: 0.8rem; color: var(--gray);
+    margin-bottom: 24px; line-height: 1.5;
+  }
+
+  .form-group { margin-bottom: 18px; }
+  .form-label {
+    display: block; font-size: 0.75rem;
+    color: var(--gold); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.25);
+    border-radius: 3px; padding: 12px 14px;
+    color: var(--cream); font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-select option { background: var(--dark); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  .scale-group { margin-bottom: 20px; }
+  .scale-question {
+    font-size: 0.85rem; color: var(--text);
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .scale-options {
+    display: flex; gap: 8px;
+  }
+  .scale-btn {
+    flex: 1; padding: 10px 4px;
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.2);
+    border-radius: 3px; color: var(--gray);
+    font-size: 0.8rem; cursor: pointer;
+    transition: all 0.2s; text-align: center;
+  }
+  .scale-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .scale-btn.selected {
+    background: var(--gold); border-color: var(--gold);
+    color: var(--black); font-weight: 500;
+  }
+  .scale-labels {
+    display: flex; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .scale-labels span { font-size: 0.65rem; color: var(--gray); }
+
+  .btn-primary {
+    width: 100%; padding: 14px;
+    background: var(--gold);
+    border: none; border-radius: 3px;
+    color: var(--black); font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-primary:disabled { background: var(--gray); cursor: not-allowed; }
+
+  .btn-secondary {
+    width: 100%; padding: 12px;
+    background: transparent;
+    border: 1px solid rgba(184,146,74,0.4);
+    border-radius: 3px; color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; cursor: pointer;
+    transition: all 0.2s; margin-top: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--gold); background: rgba(184,146,74,0.05); }
+
+  .step-indicator {
+    display: flex; gap: 6px; margin-bottom: 24px;
+  }
+  .step-dot {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: rgba(184,146,74,0.2);
+    transition: background 0.3s;
+  }
+  .step-dot.active { background: var(--gold); }
+  .step-dot.done { background: var(--gold-dark); }
+
+  /* ── RESULTADO ── */
+  .resultado-card {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.3);
+    border-radius: 6px; padding: 24px 20px;
+    margin-bottom: 16px;
+  }
+  .risk-badge {
+    display: inline-block; padding: 4px 14px;
+    border-radius: 2px; font-size: 0.7rem;
+    font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .risk-bajo { background: rgba(72,199,142,0.15); color: #48c78e; border: 1px solid #48c78e; }
+  .risk-medio { background: rgba(255,184,0,0.15); color: #ffb800; border: 1px solid #ffb800; }
+  .risk-alto { background: rgba(255,87,87,0.15); color: #ff5757; border: 1px solid #ff5757; }
+  .risk-critico { background: rgba(255,0,0,0.15); color: #ff0000; border: 1px solid #ff0000; }
+
+  .risk-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .risk-score {
+    font-size: 2.5rem; font-weight: 300;
+    color: var(--gold); margin-bottom: 4px;
+  }
+  .risk-score span { font-size: 1rem; color: var(--gray); }
+  .risk-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.6; }
+
+  .areas-grid { display: grid; gap: 10px; margin: 16px 0; }
+  .area-item {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+  }
+  .area-name { font-size: 0.8rem; color: var(--text); }
+  .area-bar-wrap { flex: 1; margin: 0 12px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .area-bar { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+  .area-value { font-size: 0.75rem; color: var(--gold); min-width: 30px; text-align: right; }
+
+  .ai-analysis {
+    background: rgba(184,146,74,0.05);
+    border-left: 2px solid var(--gold);
+    padding: 16px; margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .ai-analysis h4 {
+    font-size: 0.7rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .ai-analysis p { font-size: 0.82rem; color: var(--text); line-height: 1.7; }
+
+  .loading-ai {
+    text-align: center; padding: 20px;
+    color: var(--gray); font-size: 0.8rem;
+  }
+  .loading-dots::after {
+    content: '';
+    animation: dots 1.5s infinite;
+  }
+  @keyframes dots {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+  }
+
+  /* ── CHAT ── */
+  .chat-header {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.2);
+    border-radius: 6px; padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--black);
+  }
+  .chat-info h4 { font-size: 0.9rem; color: var(--cream); }
+  .chat-info p { font-size: 0.72rem; color: var(--gray); }
+  .online-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #48c78e; display: inline-block;
+    margin-right: 4px;
+  }
+
+  .chat-messages {
+    height: 340px; overflow-y: auto;
+    padding: 8px 0; margin-bottom: 12px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .chat-messages::-webkit-scrollbar { width: 3px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+  .msg {
+    max-width: 80%; padding: 10px 14px;
+    border-radius: 12px; font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .msg.bot {
+    background: var(--dark2);
+    border: 1px solid rgba(184,146,74,0.15);
+    color: var(--text); align-self: flex-start;
+    border-radius: 4px 12px 12px 12px;
+  }
+  .msg.user {
+    background: var(--gold);
+    color: var(--black); align-self: flex-end;
+    border-radius: 12px 4px 12px 12px;
+  }
+  .msg-time { font-size: 0.65rem; color: var(--gray); margin-top: 4px; }
+
+  .chat-input-wrap {
+    display: flex; gap: 8px;
+  }
+  .chat-input {
+    flex: 1; background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.25);
+    border-radius: 24px; padding: 10px 16px;
+    color: var(--cream); font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; outline: none;
+  }
+  .chat-input:focus { border-color: var(--gold); }
+  .chat-send {
+    width: 42px; height: 42px;
+    background: var(--gold); border: none;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: background 0.2s;
+  }
+  .chat-send:hover { background: var(--gold-light); }
+
+  /* ── ADMIN LOGIN ── */
+  .login-wrap {
+    max-width: 340px; margin: 40px auto;
+    text-align: center;
+  }
+  .login-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .login-wrap h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .login-wrap p { font-size: 0.8rem; color: var(--gray); margin-bottom: 24px; }
+  .error-msg {
+    background: rgba(255,87,87,0.1);
+    border: 1px solid rgba(255,87,87,0.3);
+    color: #ff5757; padding: 10px; border-radius: 3px;
+    font-size: 0.8rem; margin-top: 8px;
+    display: none;
+  }
+
+  /* ── ADMIN PANEL ── */
+  .admin-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(184,146,74,0.2);
+    margin-bottom: 20px;
+  }
+  .admin-tab {
+    flex: 1; padding: 10px;
+    background: none; border: none;
+    color: var(--gray); font-size: 0.75rem;
+    letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .admin-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .admin-content { display: none; }
+  .admin-content.active { display: block; }
+
+  .stat-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.15);
+    border-radius: 4px; padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; color: var(--gold);
+  }
+  .stat-label { font-size: 0.7rem; color: var(--gray); margin-top: 2px; }
+
+  .diag-item {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.15);
+    border-radius: 4px; padding: 16px;
+    margin-bottom: 10px; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .diag-item:hover { border-color: rgba(184,146,74,0.4); }
+  .diag-item-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 6px;
+  }
+  .diag-item-name { font-size: 0.9rem; color: var(--cream); }
+  .diag-item-date { font-size: 0.7rem; color: var(--gray); }
+  .diag-item-company { font-size: 0.75rem; color: var(--gold); margin-bottom: 6px; }
+  .diag-item-score {
+    font-size: 0.75rem; color: var(--gray);
+  }
+
+  .msg-item {
+    background: var(--dark);
+    border: 1px solid rgba(184,146,74,0.15);
+    border-radius: 4px; padding: 16px;
+    margin-bottom: 10px;
+  }
+  .msg-item-header {
+    display: flex; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .msg-item-name { font-size: 0.88rem; color: var(--cream); }
+  .msg-item-date { font-size: 0.7rem; color: var(--gray); }
+  .msg-item-email { font-size: 0.75rem; color: var(--gold); margin-bottom: 8px; }
+  .msg-item-text { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+
+  .empty-state {
+    text-align: center; padding: 40px 20px;
+    color: var(--gray); font-size: 0.85rem;
+  }
+  .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500; display: none;
+    align-items: flex-end;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--dark);
+    border-top: 1px solid rgba(184,146,74,0.3);
+    border-radius: 16px 16px 0 0;
+    padding: 24px 20px;
+    width: 100%;
+    max-height: 85vh; overflow-y: auto;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none;
+    color: var(--gray); font-size: 1.4rem;
+    cursor: pointer;
+  }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(15,15,15,0.97);
+    border-top: 1px solid rgba(184,146,74,0.15);
+    display: flex; padding: 8px 0 16px;
+  }
+  .bottom-btn {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    background: none; border: none;
+    color: var(--gray); cursor: pointer;
+    transition: color 0.2s; padding: 4px;
+  }
+  .bottom-btn.active { color: var(--gold); }
+  .bottom-btn .icon { font-size: 1.3rem; }
+  .bottom-btn .label { font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; }
+
+  main { padding-bottom: 80px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--dark2);
+    border: 1px solid rgba(184,146,74,0.3);
+    color: var(--cream); padding: 10px 20px;
+    border-radius: 24px; font-size: 0.8rem;
+    opacity: 0; transition: all 0.3s;
+    white-space: nowrap; z-index: 200;
+  }
+  .toast.show {
+    opacity: 1; transform: translateX(-50%) translateY(0);
+  }
+
+  .tag {
+    display: inline-block; padding: 3px 10px;
+    border: 1px solid rgba(184,146,74,0.3);
+    border-radius: 2px; font-size: 0.68rem;
+    color: var(--gold); letter-spacing: 1px;
+    margin: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="logo">E<span>y</span>ric</div>
+  <p>Consulting</p>
+  <div class="bar"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">E<span>y</span>ric</div>
+  <div class="nav-actions">
+    <button class="nav-btn" onclick="showToast('Eyric Consulting · App v1.0')">ℹ️</button>
+  </div>
+</nav>
+
+<!-- SCREENS -->
+<main>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="hero-section">
+      <h1>Gestión de Riesgos<br><em>Psicosociales</em></h1>
+      <div class="gold-line"></div>
+      <p>Diagnóstico profesional e intervención estratégica para organizaciones de alta complejidad.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card" onclick="goTo('diagnostico')">
+        <div class="icon">📋</div>
+        <h3>Diagnóstico</h3>
+        <p>Evaluá los riesgos psicosociales de tu organización</p>
+      </div>
+      <div class="card" onclick="goTo('chat')">
+        <div class="icon">💬</div>
+        <h3>Consulta</h3>
+        <p>Contactá a Eric directamente por WhatsApp o email</p>
+      </div>
+      <div class="card" onclick="window.open('https://ericjavierruizdiaz.substack.com/')">
+        <div class="icon">📰</div>
+        <h3>Newsletter</h3>
+        <p>Artículos y contenido sobre riesgos psicosociales</p>
+      </div>
+      <div class="card" onclick="window.open('https://ericjdiaz02.github.io/eyric-consulting/')">
+        <div class="icon">🌐</div>
+        <h3>Sitio Web</h3>
+        <p>Visitá nuestra página institucional</p>
+      </div>
+      <div class="card" onclick="goTo('admin')">
+        <div class="icon">🔐</div>
+        <h3>Admin</h3>
+        <p>Panel de gestión exclusivo</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAGNÓSTICO -->
+  <div class="screen" id="screen-diagnostico">
+    <div class="section-title">Diagnóstico</div>
+    <div class="section-subtitle">Evaluación de riesgos psicosociales laborales</div>
+
+    <!-- Step 1: Datos -->
+    <div id="diag-step1">
+      <div class="step-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input class="form-input" id="d-nombre" type="text" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Empresa / Organización</label>
+        <input class="form-input" id="d-empresa" type="text" placeholder="Nombre de la empresa">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sector</label>
+        <select class="form-select" id="d-sector">
+          <option value="">Seleccioná tu sector</option>
+          <option>Seguridad / Fuerzas armadas</option>
+          <option>Salud</option>
+          <option>Educación</option>
+          <option>Industria / Manufactura</option>
+          <option>Tecnología</option>
+          <option>Finanzas</option>
+          <option>Construcción</option>
+          <option>Servicios</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cantidad de empleados</label>
+        <select class="form-select" id="d-empleados">
+          <option value="">Seleccioná</option>
+          <option>1-10</option>
+          <option>11-50</option>
+          <option>51-200</option>
+          <option>201-500</option>
+          <option>+500</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email de contacto</label>
+        <input class="form-input" id="d-email" type="email" placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono / WhatsApp *</label>
+        <input class="form-input" id="d-telefono" type="tel" placeholder="+54 9 11 1234-5678" required>
+      </div>
+      <button class="btn-primary" onclick="diagStep(2)">Continuar →</button>
+    </div>
+
+    <!-- Step 2: Cuestionario -->
+    <div id="diag-step2" style="display:none">
+      <div class="step-indicator">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <div id="questions-container"></div>
+      <button class="btn-primary" onclick="diagStep(3)">Ver diagnóstico →</button>
+      <button class="btn-secondary" onclick="diagStep(1)">← Atrás</button>
+    </div>
+
+    <!-- Step 3: Resultado -->
+    <div id="diag-step3" style="display:none">
+      <div class="step-indicator">
+        <div class="step-dot done"></div>
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+      </div>
+      <div id="resultado-container"></div>
+    </div>
+  </div>
+
+  <!-- CONSULTA -->
+  <div class="screen" id="screen-chat">
+    <div class="hero-section" style="padding:24px 0 16px">
+      <h1 style="font-size:1.8rem">Hablá con <em>Eric</em></h1>
+      <div class="gold-line"></div>
+      <p>Respondemos todas las consultas de forma personal y directa.</p>
+    </div>
+
+    <div class="resultado-card" style="text-align:center;padding:32px 20px;margin-bottom:12px">
+      <div style="font-size:2.5rem;margin-bottom:12px">💬</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);margin-bottom:8px">WhatsApp</div>
+      <p style="font-size:0.82rem;color:var(--gray);line-height:1.6;margin-bottom:20px">La forma más rápida. Eric responde personalmente en menos de 24 horas hábiles.</p>
+      <a href="https://wa.me/543625479748?text=Hola%20Eric%2C%20me%20comunico%20desde%20la%20app%20de%20Eyric%20Consulting.%20Quisiera%20consultarte%20sobre..." 
+         style="display:block;background:var(--gold);color:var(--black);padding:14px;border-radius:3px;font-size:0.85rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;text-decoration:none;">
+        Abrir WhatsApp →
+      </a>
+    </div>
+
+    <div class="resultado-card" style="text-align:center;padding:32px 20px;margin-bottom:12px">
+      <div style="font-size:2.5rem;margin-bottom:12px">✉️</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);margin-bottom:8px">Email</div>
+      <p style="font-size:0.82rem;color:var(--gray);line-height:1.6;margin-bottom:20px">Para consultas más detalladas o documentación adjunta.</p>
+      <a href="mailto:ericjavierruizdiaz@gmail.com?subject=Consulta%20desde%20la%20app%20Eyric"
+         style="display:block;border:1px solid rgba(184,146,74,0.4);color:var(--gold);padding:14px;border-radius:3px;font-size:0.85rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;text-decoration:none;">
+        Enviar Email →
+      </a>
+    </div>
+
+    <div class="resultado-card" style="text-align:center;padding:32px 20px;margin-bottom:12px">
+      <div style="font-size:2.5rem;margin-bottom:12px">📰</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);margin-bottom:8px">Newsletter</div>
+      <p style="font-size:0.82rem;color:var(--gray);line-height:1.6;margin-bottom:20px">Suscribite y recibí artículos sobre riesgos psicosociales, bienestar y liderazgo directamente en tu email.</p>
+      <a href="https://ericjavierruizdiaz.substack.com/" target="_blank"
+         style="display:block;background:var(--gold);color:var(--black);padding:14px;border-radius:3px;font-size:0.85rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;text-decoration:none;">
+        Suscribirse gratis →
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ADMIN -->
+  <div class="screen" id="screen-admin">
+
+    <!-- Login -->
+    <div id="admin-login">
+      <div class="login-wrap">
+        <div class="login-icon">🔐</div>
+        <h2>Panel Admin</h2>
+        <p>Acceso exclusivo — Eyric Consulting</p>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input class="form-input" id="admin-pass" type="password" placeholder="••••••••" onkeypress="if(event.key==='Enter') adminLogin()">
+        </div>
+        <button class="btn-primary" onclick="adminLogin()">Acceder</button>
+        <div class="error-msg" id="login-error">Contraseña incorrecta</div>
+      </div>
+    </div>
+
+    <!-- Panel -->
+    <div id="admin-panel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="section-title" style="margin-bottom:0">Panel Admin</div>
+        <button class="btn-secondary" style="width:auto;padding:6px 14px;margin:0" onclick="adminLogout()">Salir</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="adminTab('stats')">Resumen</button>
+        <button class="admin-tab" onclick="adminTab('diagnosticos')">Diagnósticos</button>
+        <button class="admin-tab" onclick="adminTab('mensajes')">Mensajes</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="admin-content active" id="admin-stats">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-diags">0</div>
+            <div class="stat-label">Diagnósticos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-msgs">0</div>
+            <div class="stat-label">Mensajes chat</div>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num" id="stat-alto">0</div>
+            <div class="stat-label">Riesgo Alto</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stat-bajo">0</div>
+            <div class="stat-label">Riesgo Bajo</div>
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <button class="btn-secondary" onclick="clearData()">🗑️ Limpiar todos los datos</button>
+        </div>
+      </div>
+
+      <!-- Diagnósticos -->
+      <div class="admin-content" id="admin-diagnosticos">
+        <div id="diag-list"></div>
+      </div>
+
+      <!-- Mensajes Chat -->
+      <div class="admin-content" id="admin-mensajes">
+        <div id="msg-list"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bottom-btn active" id="nav-home" onclick="goTo('home')">
+    <span class="icon">🏠</span>
+    <span class="label">Inicio</span>
+  </button>
+  <button class="bottom-btn" id="nav-diagnostico" onclick="goTo('diagnostico')">
+    <span class="icon">📋</span>
+    <span class="label">Diagnóstico</span>
+  </button>
+  <button class="bottom-btn" id="nav-chat" onclick="goTo('chat')">
+    <span class="icon">💬</span>
+    <span class="label">Consulta</span>
+  </button>
+  <button class="bottom-btn" id="nav-admin" onclick="goTo('admin')">
+    <span class="icon">🔐</span>
+    <span class="label">Admin</span>
+  </button>
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── ESTADO ──
+const ADMIN_PASS = 'Continuar/02';
+let adminLogged = false;
+let diagData = {};
+let answers = {};
+
+// Storage helpers
+function saveData(key, val) {
+  try { localStorage.setItem('eyric_' + key, JSON.stringify(val)); } catch(e) {}
+}
+function loadData(key, def) {
+  try {
+    const v = localStorage.getItem('eyric_' + key);
+    return v ? JSON.parse(v) : def;
+  } catch(e) { return def; }
+}
+
+// ── NAVEGACIÓN ──
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.bottom-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  const nb = document.getElementById('nav-' + screen);
+  if (nb) nb.classList.add('active');
+
+  if (screen === 'chat') initChat();
+  if (screen === 'admin') initAdmin();
+  if (screen === 'diagnostico') initDiag();
+}
+
+// ── SPLASH ──
+setTimeout(() => {
+  const s = document.getElementById('splash');
+  s.style.opacity = '0';
+  setTimeout(() => s.remove(), 600);
+}, 2000);
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── DIAGNÓSTICO ──
+const QUESTIONS = [
+  { area: 'Carga de trabajo', q: '¿Con qué frecuencia sentís que tenés más trabajo del que podés manejar?' },
+  { area: 'Carga de trabajo', q: '¿Trabajás horas extra con frecuencia sin compensación adecuada?' },
+  { area: 'Control y autonomía', q: '¿Podés decidir cómo y cuándo realizás tus tareas?' },
+  { area: 'Control y autonomía', q: '¿Tenés participación en las decisiones que afectan tu trabajo?' },
+  { area: 'Relaciones interpersonales', q: '¿Existe apoyo entre compañeros y supervisores?' },
+  { area: 'Relaciones interpersonales', q: '¿Has sido testigo o víctima de conflictos o violencia laboral?' },
+  { area: 'Claridad de rol', q: '¿Tenés claras las responsabilidades y expectativas de tu puesto?' },
+  { area: 'Desarrollo profesional', q: '¿Tu trabajo te brinda oportunidades de crecimiento y aprendizaje?' },
+  { area: 'Reconocimiento', q: '¿Sentís que tu esfuerzo y desempeño son reconocidos?' },
+  { area: 'Conciliación vida-trabajo', q: '¿Podés desconectarte del trabajo fuera del horario laboral?' },
+];
+
+const SCALE = ['Nunca', 'Rara vez', 'A veces', 'Frecuente', 'Siempre'];
+
+function initDiag() {
+  // reset steps
+  diagStep(1);
+}
+
+function diagStep(n) {
+  document.getElementById('diag-step1').style.display = n === 1 ? 'block' : 'none';
+  document.getElementById('diag-step2').style.display = n === 2 ? 'block' : 'none';
+  document.getElementById('diag-step3').style.display = n === 3 ? 'block' : 'none';
+
+  if (n === 2) buildQuestions();
+  if (n === 3) buildResultado();
+}
+
+function buildQuestions() {
+  const c = document.getElementById('questions-container');
+  c.innerHTML = QUESTIONS.map((q, i) => `
+    <div class="scale-group">
+      <div style="font-size:0.65rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">${q.area}</div>
+      <div class="scale-question">${i+1}. ${q.q}</div>
+      <div class="scale-options">
+        ${SCALE.map((s, j) => `
+          <button class="scale-btn ${answers[i] === j ? 'selected' : ''}" onclick="selectAnswer(${i}, ${j}, this.parentElement)">${j+1}</button>
+        `).join('')}
+      </div>
+      <div class="scale-labels">
+        <span>Nunca</span><span>Siempre</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectAnswer(qIdx, val, container) {
+  answers[qIdx] = val;
+  container.querySelectorAll('.scale-btn').forEach((b, i) => {
+    b.classList.toggle('selected', i === val);
+  });
+}
+
+function buildResultado() {
+  const container = document.getElementById('resultado-container');
+
+  // Calcular puntajes por área
+  const areas = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!areas[q.area]) areas[q.area] = { sum: 0, count: 0 };
+    const val = answers[i] !== undefined ? answers[i] : 2;
+    // Invertir para preguntas positivas (3, 4, 8, 9)
+    const positive = [2, 3, 7, 8].includes(i);
+    areas[q.area].sum += positive ? (4 - val) : val;
+    areas[q.area].count++;
+  });
+
+  const areaScores = Object.entries(areas).map(([name, {sum, count}]) => ({
+    name,
+    score: Math.round((sum / (count * 4)) * 100)
+  }));
+
+  const totalScore = Math.round(areaScores.reduce((a, b) => a + b.score, 0) / areaScores.length);
+
+  let risk, riskClass;
+  if (totalScore < 25) { risk = 'Bajo'; riskClass = 'risk-bajo'; }
+  else if (totalScore < 50) { risk = 'Medio'; riskClass = 'risk-medio'; }
+  else if (totalScore < 75) { risk = 'Alto'; riskClass = 'risk-alto'; }
+  else { risk = 'Crítico'; riskClass = 'risk-critico'; }
+
+  const result = {
+    id: Date.now(),
+    fecha: new Date().toLocaleDateString('es-AR'),
+    nombre: document.getElementById('d-nombre').value || 'Anónimo',
+    empresa: document.getElementById('d-empresa').value || 'No especificada',
+    sector: document.getElementById('d-sector').value || 'No especificado',
+    email: document.getElementById('d-email').value || '',
+    telefono: document.getElementById('d-telefono').value || '',
+    score: totalScore,
+    risk,
+    areas: areaScores,
+    answers: {...answers}
+  };
+
+  // Guardar localmente
+  const diags = loadData('diagnosticos', []);
+  diags.unshift(result);
+  saveData('diagnosticos', diags);
+
+  // Guardar en estado global para PDF
+  window.currentResult = result;
+
+  // Mostrar mensaje de agradecimiento al cliente
+  container.innerHTML = `
+    <div class="resultado-card" style="text-align:center;padding:40px 24px">
+      <div style="font-size:3rem;margin-bottom:16px">✅</div>
+      <div class="risk-title" style="margin-bottom:12px">¡Gracias, ${result.nombre}!</div>
+      <p style="font-size:0.88rem;color:var(--gray);line-height:1.7;margin-bottom:20px">
+        Recibimos tu diagnóstico. Eric te va a contactar a la brevedad para ayudarte personalmente con tu situación.
+      </p>
+      <div style="border-top:1px solid rgba(184,146,74,0.2);padding-top:20px;margin-top:8px">
+        <p style="font-size:0.78rem;color:var(--gold);letter-spacing:1px;margin-bottom:8px">¿NECESITÁS HABLAR AHORA?</p>
+        <a href="https://wa.me/543625479748" style="display:inline-block;background:var(--gold);color:var(--black);padding:10px 24px;border-radius:3px;font-size:0.82rem;font-weight:500;text-decoration:none;margin-bottom:8px">
+          💬 WhatsApp con Eric
+        </a>
+      </div>
+    </div>
+    <button class="btn-secondary" onclick="diagStep(1);answers={}">Completar otro diagnóstico</button>
+  `;
+
+  // Enviar datos completos a Eric por Formspree
+  sendToFormspree(result);
+}
+
+async function sendToFormspree(result) {
+  try {
+    const areasText = result.areas.map(a => `${a.name}: ${a.score}% (${a.score > 65 ? 'ALTO' : a.score > 40 ? 'MEDIO' : 'BAJO'})`).join('\n');
+    const body = new FormData();
+    body.append('_subject', `🔔 Diagnóstico App — ${result.nombre} (${result.empresa})`);
+    body.append('nombre', result.nombre);
+    body.append('empresa', result.empresa);
+    body.append('sector', result.sector);
+    body.append('email', result.email || 'No proporcionado');
+    body.append('telefono', result.telefono || 'No proporcionado');
+    body.append('fecha', result.fecha);
+    body.append('riesgo', `${result.risk} — Score: ${result.score}/100`);
+    body.append('areas_evaluadas', areasText);
+    body.append('_replyto', result.email || 'sin-email@eyric.com');
+
+    await fetch('https://formspree.io/f/mkoyyoew', {
+      method: 'POST',
+      body,
+      headers: { 'Accept': 'application/json' }
+    });
+  } catch(e) {
+    // Fallo silencioso — datos guardados localmente de todas formas
+    console.log('Formspree error:', e);
+  }
+}
+
+async function getAIAnalysis(result) {
+  const prompt = `Eres un experto en psicología organizacional y riesgos psicosociales laborales. 
+Analizá este diagnóstico y dá un análisis profesional breve (3-4 oraciones) con recomendaciones prioritarias:
+- Empresa: ${result.empresa}
+- Sector: ${result.sector}
+- Nivel de riesgo: ${result.risk} (${result.score}/100)
+- Áreas críticas: ${result.areas.filter(a => a.score > 50).map(a => a.name + ' (' + a.score + '%)').join(', ') || 'Ninguna crítica'}
+Sé directo, profesional y específico. En español.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'Análisis no disponible.';
+    document.getElementById('ai-text').innerHTML = `<p>${text}</p>`;
+
+    // Actualizar con análisis
+    const diags = loadData('diagnosticos', []);
+    const idx = diags.findIndex(d => d.id === result.id);
+    if (idx !== -1) { diags[idx].aiAnalysis = text; saveData('diagnosticos', diags); }
+  } catch(e) {
+    document.getElementById('ai-text').innerHTML = '<p>El análisis IA no está disponible en este momento. Los datos del diagnóstico fueron guardados correctamente.</p>';
+  }
+}
+
+function generatePDF() {
+  const r = window.currentResult;
+  if (!r) return;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html><head><title>Diagnóstico Eyric - ${r.nombre}</title>
+    <style>
+      body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#1a1a1a;padding:20px}
+      h1{color:#b8924a;font-size:2rem;margin-bottom:4px}
+      h2{color:#b8924a;font-size:1.2rem;border-bottom:1px solid #b8924a;padding-bottom:6px;margin:24px 0 12px}
+      .badge{display:inline-block;padding:4px 16px;border-radius:3px;font-size:0.8rem;font-weight:bold;margin:8px 0}
+      .score{font-size:3rem;color:#b8924a;margin:8px 0}
+      table{width:100%;border-collapse:collapse;margin-top:8px}
+      td,th{padding:8px 12px;border:1px solid #ddd;text-align:left}
+      th{background:#f5f0e8;color:#8a6a30}
+      .footer{margin-top:40px;font-size:0.75rem;color:#888;border-top:1px solid #ddd;padding-top:12px}
+    </style></head>
+    <body>
+      <h1>Eyric Consulting</h1>
+      <p style="color:#888;font-size:0.85rem">Diagnóstico de Riesgos Psicosociales Laborales</p>
+      <hr style="border-color:#b8924a;margin:16px 0">
+      <h2>Datos del diagnóstico</h2>
+      <p><strong>Responsable:</strong> ${r.nombre}</p>
+      <p><strong>Empresa:</strong> ${r.empresa}</p>
+      <p><strong>Sector:</strong> ${r.sector}</p>
+      <p><strong>Fecha:</strong> ${r.fecha}</p>
+      <h2>Resultado</h2>
+      <span class="badge" style="background:#f5f0e8;color:#b8924a;border:1px solid #b8924a">RIESGO ${r.risk.toUpperCase()}</span>
+      <div class="score">${r.score}<span style="font-size:1.2rem;color:#888">/100</span></div>
+      <h2>Áreas evaluadas</h2>
+      <table>
+        <tr><th>Área</th><th>Puntaje</th><th>Nivel</th></tr>
+        ${r.areas.map(a => `<tr><td>${a.name}</td><td>${a.score}%</td><td>${a.score > 65 ? '⚠️ Alto' : a.score > 40 ? '⚡ Medio' : '✅ Bajo'}</td></tr>`).join('')}
+      </table>
+      ${r.aiAnalysis ? `<h2>Análisis profesional</h2><p style="line-height:1.7">${r.aiAnalysis}</p>` : ''}
+      <div class="footer">
+        <p>Eyric Consulting · Gestión de Riesgos Psicosociales Laborales</p>
+        <p>Eric Javier Ruiz Díaz · ericjavierruizdiaz@gmail.com</p>
+        <p>Este informe es confidencial y de uso exclusivo del destinatario.</p>
+      </div>
+    </body></html>
+  `);
+  w.document.close();
+  w.print();
+}
+
+// ── CHAT ──
+let chatHistory = [];
+let chatMsgs = [];
+
+function initChat() {
+  const container = document.getElementById('chat-messages');
+  if (container.children.length === 0) {
+    addBotMsg('¡Hola! Soy el asistente de Eyric Consulting. ¿En qué puedo ayudarte hoy?\n\nPuedo orientarte sobre nuestros servicios de diagnóstico y gestión de riesgos psicosociales laborales.');
+  }
+}
+
+function addBotMsg(text) {
+  const now = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.innerHTML = `<div class="msg bot">${text.replace(/\n/g,'<br>')}<div class="msg-time">${now}</div></div>`;
+  container.appendChild(div.firstChild);
+  container.scrollTop = container.scrollHeight;
+
+  chatMsgs.push({ role: 'bot', text, time: now });
+  saveChatMsgs();
+}
+
+function addUserMsg(text) {
+  const now = new Date().toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.innerHTML = `<div class="msg user">${text}<div class="msg-time">${now}</div></div>`;
+  container.appendChild(div.firstChild);
+  container.scrollTop = container.scrollHeight;
+
+  chatMsgs.push({ role: 'user', text, time: now });
+  chatHistory.push({ role: 'user', content: text });
+  saveChatMsgs();
+}
+
+function saveChatMsgs() {
+  saveData('chat_msgs', chatMsgs);
+  // Stats
+  const diags = loadData('diagnosticos', []);
+  saveData('stats', { diags: diags.length, msgs: chatMsgs.filter(m => m.role === 'user').length });
+}
+
+async function sendMsg() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMsg(text);
+
+  // Typing indicator
+  const container = document.getElementById('chat-messages');
+  const typing = document.createElement('div');
+  typing.className = 'msg bot';
+  typing.innerHTML = '<span class="loading-dots">Escribiendo</span>';
+  typing.id = 'typing';
+  container.appendChild(typing);
+  container.scrollTop = container.scrollHeight;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `Sos el asistente virtual de Eyric Consulting, una consultora argentina especializada en gestión de riesgos psicosociales laborales. 
+Tu nombre es Eyric Assistant. Respondés en español, de forma profesional pero cercana. 
+Podés orientar sobre: diagnósticos psicosociales, gestión de riesgos, normativas laborales, bienestar organizacional, intervenciones.
+Si preguntan precios, quieren contratar, o si la consulta es muy específica y necesita análisis personalizado, deciles: "Esta consulta la puede responder mejor Eric directamente. Podés escribirle por WhatsApp al +54 3625 479748 o por email a ericjavierruizdiaz@gmail.com — te responde a la brevedad."
+Si no sabés la respuesta con certeza, no inventes — derivá a Eric.
+Respuestas cortas y útiles (máximo 3 párrafos).`,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || 'Disculpá, no pude procesar tu consulta. Por favor escribinos a ericjavierruizdiaz@gmail.com';
+    document.getElementById('typing')?.remove();
+    chatHistory.push({ role: 'assistant', content: reply });
+    addBotMsg(reply);
+  } catch(e) {
+    document.getElementById('typing')?.remove();
+    addBotMsg('Disculpá, hubo un problema de conexión. Escribinos directamente a ericjavierruizdiaz@gmail.com');
+  }
+}
+
+// ── ADMIN ──
+function adminLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASS) {
+    adminLogged = true;
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadAdminData();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('admin-pass').value = '';
+  }
+}
+
+function adminLogout() {
+  adminLogged = false;
+  document.getElementById('admin-login').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('admin-pass').value = '';
+}
+
+function initAdmin() {
+  if (adminLogged) loadAdminData();
+}
+
+function loadAdminData() {
+  const diags = loadData('diagnosticos', []);
+  const msgs = loadData('chat_msgs', []);
+  const userMsgs = msgs.filter(m => m.role === 'user');
+
+  // Stats
+  document.getElementById('stat-diags').textContent = diags.length;
+  document.getElementById('stat-msgs').textContent = userMsgs.length;
+  document.getElementById('stat-alto').textContent = diags.filter(d => d.risk === 'Alto' || d.risk === 'Crítico').length;
+  document.getElementById('stat-bajo').textContent = diags.filter(d => d.risk === 'Bajo').length;
+
+  // Diagnósticos list
+  const diagList = document.getElementById('diag-list');
+  if (diags.length === 0) {
+    diagList.innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>Aún no hay diagnósticos realizados</p></div>';
+  } else {
+    diagList.innerHTML = diags.map(d => `
+      <div class="diag-item" onclick="showDiagDetail(${d.id})">
+        <div class="diag-item-header">
+          <span class="diag-item-name">${d.nombre}</span>
+          <span class="diag-item-date">${d.fecha}</span>
+        </div>
+        <div class="diag-item-company">${d.empresa}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="risk-badge ${d.risk === 'Bajo' ? 'risk-bajo' : d.risk === 'Medio' ? 'risk-medio' : d.risk === 'Alto' ? 'risk-alto' : 'risk-critico'}" style="font-size:0.65rem;padding:2px 10px">
+            Riesgo ${d.risk}
+          </span>
+          <span class="diag-item-score">Score: ${d.score}/100</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Mensajes chat
+  const msgList = document.getElementById('msg-list');
+  const convMsgs = msgs.filter(m => m.role === 'user');
+  if (convMsgs.length === 0) {
+    msgList.innerHTML = '<div class="empty-state"><div class="icon">💬</div><p>Aún no hay mensajes de chat</p></div>';
+  } else {
+    msgList.innerHTML = convMsgs.map(m => `
+      <div class="msg-item">
+        <div class="msg-item-header">
+          <span class="msg-item-name">Cliente</span>
+          <span class="msg-item-date">${m.time || ''}</span>
+        </div>
+        <div class="msg-item-text">${m.text}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function showDiagDetail(id) {
+  const diags = loadData('diagnosticos', []);
+  const d = diags.find(x => x.id === id);
+  if (!d) return;
+
+  document.getElementById('modal-body').innerHTML = `
+    <h2 style="font-family:'Cormorant Garamond',serif;color:var(--cream);margin-bottom:16px">Detalle del diagnóstico</h2>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:4px"><strong style="color:var(--gold)">Nombre:</strong> ${d.nombre}</p>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:4px"><strong style="color:var(--gold)">Empresa:</strong> ${d.empresa}</p>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:4px"><strong style="color:var(--gold)">Sector:</strong> ${d.sector}</p>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:4px"><strong style="color:var(--gold)">Email:</strong> ${d.email || 'No proporcionado'}</p>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:16px"><strong style="color:var(--gold)">Fecha:</strong> ${d.fecha}</p>
+    <span class="risk-badge ${d.risk === 'Bajo' ? 'risk-bajo' : d.risk === 'Medio' ? 'risk-medio' : d.risk === 'Alto' ? 'risk-alto' : 'risk-critico'}">
+      Riesgo ${d.risk} · ${d.score}/100
+    </span>
+    <div style="margin-top:16px">
+      ${d.areas.map(a => `
+        <div class="area-item" style="margin-bottom:6px">
+          <span class="area-name">${a.name}</span>
+          <div class="area-bar-wrap"><div class="area-bar" style="width:${a.score}%;background:${a.score>65?'#ff5757':a.score>40?'#ffb800':'#48c78e'}"></div></div>
+          <span class="area-value">${a.score}%</span>
+        </div>
+      `).join('')}
+    </div>
+    ${d.aiAnalysis ? `<div class="ai-analysis" style="margin-top:16px"><h4>Análisis IA</h4><p style="font-size:0.82rem;line-height:1.7">${d.aiAnalysis}</p></div>` : ''}
+    <button class="btn-secondary" style="margin-top:16px" onclick="window.currentResult=diagById(${d.id});generatePDF()">📄 Descargar PDF</button>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function adminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('admin-' + tab).classList.add('active');
+}
+
+function clearData() {
+  if (confirm('¿Borrar todos los datos guardados?')) {
+    localStorage.removeItem('eyric_diagnosticos');
+    localStorage.removeItem('eyric_chat_msgs');
+    loadAdminData();
+    showToast('Datos eliminados');
+  }
+}
+
+function diagById(id) {
+  const diags = loadData('diagnosticos', []);
+  return diags.find(x => x.id === id) || null;
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+</script>
+</body>
+</html>
